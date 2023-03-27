@@ -8,25 +8,19 @@ from dotenv import load_dotenv
 def get_spotify(access_token):
     return spotipy.Spotify(auth=access_token)
 
-# # Ask user for Spotify Playlist URL
-# def get_playlist_url():
-#     playlist_url = input("Enter the URL of the playlist you want to download: ")
-
-#     # if the playlist URL is valid, return it
-#     if playlist_url.startswith("https://open.spotify.com/playlist/"):
-#         return playlist_url
-#     else:  
-#         # if the playlist URL is invalid, ask the user to enter it again
-#         print("Invalid playlist URL. Please try again.")
-#         get_playlist_url()
+# Ask user for Spotify Playlist URL
+def get_playlist_url():
+    playlist_url = input("Enter the URL of the playlist you want to download: ")
+    return playlist_url
 
 # Download the tracks with spotdl
 def download_tracks(playlist_url):
-    # Create a directory called `mixtape` to store the tracks
-    os.system("mkdir mixtape")
+    # # Create tmp directory if it doesn't exist
+    # if not os.path.exists("tmp"):
+    #     os.makedirs("tmp")
 
     # cd into the directory where the tracks will be downloaded
-    os.chdir("mixtape")
+    os.chdir("/tmp/")
 
     # Download the tracks with with `spotdl download [playlistUrl]` with bitrate disabled and numbered in order
     os.system("spotdl --bitrate disable --output '{list-position}' download " + playlist_url)
@@ -39,7 +33,7 @@ def download_tracks(playlist_url):
     os.system("sed -i '$ d' tracks.txt")
 
     # cd back to the root directory
-    os.chdir("..")
+    # os.chdir("..")
 
 # Get the cover art of the playlist
 def get_cover_art(sp, playlist_url):
@@ -82,19 +76,13 @@ def get_playlist_title(sp, playlist_url):
 # Join the tracks together with ffmpeg
 def join_tracks(title):
     # Look at the tracks.txt file and join the tracks together
-    os.system("ffmpeg -f concat -safe 0 -i mixtape/tracks.txt -c copy mixtape.mp3")
+    os.system("ffmpeg -f concat -safe 0 -i tracks.txt -c copy mixtape.mp3")
 
     # Add the cover art to the joined tracks
     os.system("ffmpeg -i mixtape.mp3 -i playlist_cover.jpg -c copy -map 0 -map 1 output.mp3")
 
     # Rename the output file to the name of the original file to overwrite it
     os.system("mv output.mp3 mixtape.mp3")
-
-    # Remove the mixtape directory
-    os.system("rm -rf mixtape")
-
-    # Remove the playlist cover art
-    os.system("rm playlist_cover.jpg")
 
     # Rename the mixtape file to the name of the playlist
     os.system("mv mixtape.mp3 '" + title + "'.mp3")

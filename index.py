@@ -1,16 +1,17 @@
 from flask import Flask, render_template, request, send_file, redirect, session, url_for, after_this_request
 from functions import *
+from spotipy.oauth2 import SpotifyOAuth, SpotifyClientCredentials
 
 app = Flask(__name__)
 
 app.config.update(
     TESTING=True,
-    TEMPLATES_AUTO_RELOAD = True,
-    BASE_URL = 'http://localhost:5000/'
+    TEMPLATES_AUTO_RELOAD=True,
+    BASE_URL='http://localhost:5000/',
+    SESSION_COOKIE_NAME="spotify-auth-session"
 )
 
 app.secret_key = os.environ.get("SECRET_KEY")
-app.config["SESSION_COOKIE_NAME"] = "spotify-auth-session"
 
 # Set up the SpotifyOAuth object with your app's client ID, client secret, and redirect URI
 sp_oauth = SpotifyOAuth(
@@ -20,7 +21,10 @@ sp_oauth = SpotifyOAuth(
     scope="playlist-read-private",
 )
 
-sp = spotipy.Spotify(auth_manager=sp_oauth)
+auth_manager = SpotifyClientCredentials()
+
+# sp = spotipy.Spotify(auth_manager=sp_oauth)
+sp = spotipy.Spotify(auth_manager=auth_manager)
 
 @app.route("/")
 def index():
@@ -66,21 +70,17 @@ def download():
 
         @after_this_request
         def remove_file(response):
-            # Delete the mp3 file after the request is finished
-            os.remove(playlist_title + '.mp3')
+            # Delete all files in current directory
+            os.system("rm -rf *")
             # Return the response
             return response
         
-        # Return the mixtape file
-        return send_file(playlist_title + '.mp3', as_attachment=True)
+        # Return the mixtape file in the /tmp directory
+        return send_file('/tmp/' + playlist_title + '.mp3', as_attachment=True)
     else:
         # if the playlist URL is invalid, ask the user to enter it again
         print("Invalid playlist URL. Please try again.")
         return redirect(url_for('index'))
 
-
-
-
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
