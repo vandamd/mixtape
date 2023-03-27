@@ -15,12 +15,8 @@ def get_playlist_url():
 
 # Download the tracks with spotdl
 def download_tracks(playlist_url):
-    # # Create tmp directory if it doesn't exist
-    # if not os.path.exists("tmp"):
-    #     os.makedirs("tmp")
-
     # cd into the directory where the tracks will be downloaded
-    os.chdir("/tmp/")
+    os.chdir("tmp")
 
     # Download the tracks with with `spotdl download [playlistUrl]` with bitrate disabled and numbered in order
     os.system("spotdl --bitrate disable --output '{list-position}' download " + playlist_url)

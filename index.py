@@ -76,7 +76,7 @@ def download():
             return response
         
         # Return the mixtape file in the /tmp directory
-        return send_file('/tmp/' + playlist_title + '.mp3', as_attachment=True)
+        return send_file('tmp/' + playlist_title + '.mp3', as_attachment=True)
     else:
         # if the playlist URL is invalid, ask the user to enter it again
         print("Invalid playlist URL. Please try again.")
