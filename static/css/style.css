@@ -1,0 +1,53 @@
+@import "theme.css";
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16pt;
+  line-height: 1.3em;
+  padding: 2em 5%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.25;
+}
+
+.title {
+  margin: 0;
+  margin-bottom: 16px;
+}
+
+input[type="text"] {
+  font-size: 32px;
+  border: none;
+  outline: none;
+  background: none;
+  cursor: text;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+a {
+  font-size: 32px;
+}
+
+.about {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 2em 5%; 
+}
+
+@media (max-width: 800px) {
+  body {
+    padding: 2em 10%;
+    font-size: 24pt;
+  }
+  .about {
+    padding: 2em 10%;
+  }
+}

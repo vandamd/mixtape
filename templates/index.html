@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Spotify Mixtape Generator</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    </head>
+    <body>
+        <h1 class="title">Mixtape</h1>
+        {% if show_form %}
+        <form action="/download" method="get" onsubmit="if(isValidUrl()){showLoading()}">
+            <input type="text" id="playlist_url" name="playlist_url" placeholder="Playlist URL...">
+        </form>
+        <div class="loading" id="loading" style="display:none;">Your mixtape will be downloaded automatically.</div>
+        {% else %}
+        <div class="login">
+            <a href="/login">Login with Spotify</a>
+        </div>
+        {% endif %}
+        <div class="about">
+            <li>Mixtape is a simple web app that converts your private or public Spotify playlist into a single MP3 file.</li>
+            <li>Songs are 128kbps.<span class="secondary"> (seeking higher quality sources)</span></li>
+            <li>Playlist titles & covers are transferred.</li>
+            <li>Please note that unauthorised downloading of copyrighted material may have legal consequences. Mixtape is for personal use only and we take no responsibility for any actions taken by our users.</li>
+        </div>
+        <!-- Load in JS file loading.js -->
+        <script src="{{ url_for('static', filename='javascript/loading.js') }}"></script>
+    </body>
+</html>

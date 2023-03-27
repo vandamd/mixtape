@@ -1,0 +1,25 @@
+body {
+  color: #000000;
+  background-color: #FFFFFF;
+}
+
+body ::placeholder {
+  color: #9CA3AF;
+}
+
+body .secondary {
+  color: #9CA3AF;
+}
+
+body .loading {
+  color: #9CA3AF;
+}
+
+body a {
+  color: #1DB954;
+}
+
+body input[type="text"] {
+  color: #000000;
+  caret-color: #000000;
+}
