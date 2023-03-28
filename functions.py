@@ -15,6 +15,10 @@ def get_playlist_url():
 
 # Download the tracks with spotdl
 def download_tracks(playlist_url):
+    # Create a directory called `tmp` if it doesn't exist
+    if not os.path.exists("tmp"):
+        os.makedirs("tmp")
+
     # cd into the directory where the tracks will be downloaded
     os.chdir("tmp")
 
@@ -75,7 +79,10 @@ def join_tracks(title):
     os.system("ffmpeg -f concat -safe 0 -i tracks.txt -c copy mixtape.mp3")
 
     # Add the cover art to the joined tracks
-    os.system("ffmpeg -i mixtape.mp3 -i playlist_cover.jpg -c copy -map 0 -map 1 output.mp3")
+    os.system("ffmpeg -i mixtape.mp3 -i playlist_cover.jpg -c copy -map 0 -map 1 art.mp3")
+
+    # Add 'Mixtape' as artist metadata
+    os.system("ffmpeg -i art.mp3 -metadata artist='Mixtape' -metadata album='" + title + "' output.mp3")
 
     # Rename the output file to the name of the original file to overwrite it
     os.system("mv output.mp3 mixtape.mp3")

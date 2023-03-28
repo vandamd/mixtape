@@ -72,6 +72,8 @@ def download():
         def remove_file(response):
             # Delete all files in current directory
             os.system("rm -rf *")
+            # cd back to the root directory
+            os.chdir("..")
             # Return the response
             return response
         
